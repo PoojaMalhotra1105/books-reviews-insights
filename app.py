@@ -644,16 +644,31 @@ def discover_summer_books():
         )
         recommended_df = recommended_df[search_mask]
     
-   # Display results
-st.markdown(f"### 📖 {len(recommended_df)} Perfect Matches for '{selected_mood}'")
+   def discover_summer_books():
+    """Discover summer reading recommendations"""
+    st.markdown("### ☀️ Discover Summer Books")
+    
+    if st.session_state.books_df.empty:
+        st.warning("📚 No book collection available. Please ensure your dataset file is in the project directory.")
+        return
+    
+    df = st.session_state.books_df.copy()
+    
+    # ... rest of your filtering code ...
+    
+    # Make sure this is properly indented inside the function
+    st.markdown(f"### 📖 {len(recommended_df)} Perfect Matches for '{selected_mood}'")
+    
+    if len(recommended_df) > 0:
+        for _, book in recommended_df.iterrows():
+            display_summer_book_card(book, show_add_button=True)
+    else:
+        st.markdown("""
+        <div class="summer-empty-state">
+            <h3>No books found for your current filters</h3>
+            <p>Try adjusting your search criteria or rating threshold to discover more summer reads!</p>
+        </div>
+        """, unsafe_allow_html=True)
 
-if len(recommended_df) > 0:
-    for _, book in recommended_df.iterrows():
-        display_summer_book_card(book, show_add_button=True)
-else:
-    st.markdown("""
-    <div class="summer-empty-state">
-        <h3>No books found for your current filters</h3>
-        <p>Try adjusting your search criteria or rating threshold to discover more summer reads!</p>
-    </div>
-    """, unsafe_allow_html=True)
+# Make sure you call the function somewhere in your main code
+discover_summer_books()
