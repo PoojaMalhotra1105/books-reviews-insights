@@ -648,5 +648,5 @@ def discover_summer_books():
     st.markdown(f"### 📖 {len(recommended_df)} Perfect Matches for '{selected_mood}'")
     
     if len(recommended) > 0:
-    for book in recommended:
-        print(book)
+        for book in recommended:
+            print(book)
