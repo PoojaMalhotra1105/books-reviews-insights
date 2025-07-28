@@ -1,59 +1,111 @@
+# main.py - Your main Streamlit app file
 import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
+from pages import landing, collection_overview, recommendations
 
-# Load dataset
-df = pd.read_csv("goodreads_works 1.csv")
+def main():
+    st.set_page_config(
+        page_title="Books, Reviews & Insights",
+        page_icon="📚",
+        layout="wide",
+        initial_sidebar_state="collapsed"
+    )
+    
+    # Initialize session state
+    if 'current_page' not in st.session_state:
+        st.session_state.current_page = 'landing'
+    
+    # Hide Streamlit's default menu and footer for landing page
+    if st.session_state.current_page == 'landing':
+        hide_streamlit_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        .block-container {padding-top: 0rem;}
+        </style>
+        """
+        st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+    
+    # Page routing
+    if st.session_state.current_page == 'landing':
+        landing.show()
+    elif st.session_state.current_page == 'collection_overview':
+        collection_overview.show()
+    elif st.session_state.current_page == 'recommendations':
+        recommendations.show()
 
-# Preprocess
-df['genres'] = df['genres'].fillna('')
-df['original_publication_year'] = pd.to_numeric(df['original_publication_year'], errors='coerce')
-df['avg_rating'] = pd.to_numeric(df['avg_rating'], errors='coerce')
+if __name__ == "__main__":
+    main()
 
-# Sidebar filters
-st.sidebar.header("📚 Filter Your Reading List")
-all_genres = sorted(set(g.strip() for sublist in df['genres'].dropna().str.split(',') for g in sublist))
-selected_genre = st.sidebar.selectbox("Select Genre", all_genres)
-min_rating = st.sidebar.slider("Minimum Rating", 1.0, 5.0, 3.5, 0.1)
-year_range = st.sidebar.slider("Publication Year Range", int(df['original_publication_year'].min()), int(df['original_publication_year'].max()), (2000, 2020))
+# ===== pages/landing.py =====
+import streamlit as st
+import streamlit.components.v1 as components
 
-# Filtered data
-filtered_df = df[
-    df['genres'].str.contains(selected_genre, case=False) &
-    (df['avg_rating'] >= min_rating) &
-    (df['original_publication_year'] >= year_range[0]) &
-    (df['original_publication_year'] <= year_range[1])
-]
+def show():
+    # Your landing page HTML (same as above)
+    landing_html = """
+    <!-- Your complete landing page HTML here -->
+    """
+    
+    # Display landing page
+    components.html(landing_html, height=1200, scrolling=True)
+    
+    # Navigation buttons
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("🚀 Explore Your Collection", key="to_collection", type="primary"):
+            st.session_state.current_page = 'collection_overview'
+            st.rerun()
 
-# App title
-st.title("📖 Books, Reviews & Insights")
-st.markdown("Explore Goodreads data and build your perfect summer reading list!")
+# ===== pages/collection_overview.py =====
+import streamlit as st
 
-# Book selection
-st.subheader("🎯 Recommended Books")
-selected_books = st.multiselect("Select books to add to your reading list", filtered_df['original_title'].dropna().unique())
-reading_list = filtered_df[filtered_df['original_title'].isin(selected_books)]
+def show():
+    # Navigation
+    col1, col2, col3 = st.columns([1, 8, 1])
+    with col1:
+        if st.button("🏠 Home"):
+            st.session_state.current_page = 'landing'
+            st.rerun()
+    with col3:
+        if st.button("💡 Recommendations"):
+            st.session_state.current_page = 'recommendations'
+            st.rerun()
+    
+    st.title("📊 Collection Overview")
+    
+    # Your existing collection overview content
+    # This is where your current localhost:8501/#collection-overview content goes
+    
+    # Example content
+    st.subheader("Your Reading Statistics")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Total Books", "142", "12")
+    with col2:
+        st.metric("Books Read", "89", "8")
+    with col3:
+        st.metric("Average Rating", "4.2", "0.1")
+    with col4:
+        st.metric("Reading Goal", "75%", "5%")
 
-st.write(reading_list[['original_title', 'author', 'avg_rating', 'original_publication_year', 'genres']])
+# ===== pages/recommendations.py =====
+import streamlit as st
 
-# Export reading list
-if not reading_list.empty:
-    st.download_button("📥 Export Reading List as CSV", reading_list.to_csv(index=False), "reading_list.csv", "text/csv")
-
-# Charts
-st.subheader("📊 Top Genres")
-genre_counts = pd.Series([g.strip() for sublist in df['genres'].dropna().str.split(',') for g in sublist]).value_counts().head(15)
-fig1, ax1 = plt.subplots()
-genre_counts.plot(kind='barh', ax=ax1)
-ax1.set_xlabel("Number of Books")
-ax1.set_ylabel("Genre")
-ax1.set_title("Top 15 Genres by Book Count")
-st.pyplot(fig1)
-
-st.subheader("💬 Most Reviewed Books")
-most_reviewed = df[['original_title', 'text_reviews_count']].dropna().sort_values(by='text_reviews_count', ascending=False).head(10)
-fig2, ax2 = plt.subplots()
-ax2.barh(most_reviewed['original_title'], most_reviewed['text_reviews_count'])
-ax2.set_xlabel("Text Reviews Count")
-ax2.set_title("Top 10 Most Reviewed Books")
-st.pyplot(fig2)
+def show():
+    # Navigation
+    col1, col2, col3 = st.columns([1, 8, 1])
+    with col1:
+        if st.button("🏠 Home"):
+            st.session_state.current_page = 'landing'
+            st.rerun()
+    with col2:
+        if st.button("📊 Collection"):
+            st.session_state.current_page = 'collection_overview'
+            st.rerun()
+    
+    st.title("💡 Book Recommendations")
+    st.write("Based on your reading history and preferences...")
+    
+    # Your recommendation logic here
