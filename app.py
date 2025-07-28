@@ -644,7 +644,7 @@ def discover_summer_books():
         )
         recommended_df = recommended_df[search_mask]
     
-   def discover_summer_books():
+def discover_summer_books():
     """Discover summer reading recommendations"""
     st.markdown("### ☀️ Discover Summer Books")
     
