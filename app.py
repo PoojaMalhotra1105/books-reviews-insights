@@ -644,9 +644,16 @@ def discover_summer_books():
         )
         recommended_df = recommended_df[search_mask]
     
-    # Display results
-    st.markdown(f"### 📖 {len(recommended_df)} Perfect Matches for '{selected_mood}'")
-    
-    if len(recommended) > 0:
-        for book in recommended:
-            print(book)
+   # Display results
+st.markdown(f"### 📖 {len(recommended_df)} Perfect Matches for '{selected_mood}'")
+
+if len(recommended_df) > 0:
+    for _, book in recommended_df.iterrows():
+        display_summer_book_card(book, show_add_button=True)
+else:
+    st.markdown("""
+    <div class="summer-empty-state">
+        <h3>No books found for your current filters</h3>
+        <p>Try adjusting your search criteria or rating threshold to discover more summer reads!</p>
+    </div>
+    """, unsafe_allow_html=True)
