@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "work_id": 48992784,
+    "title": "City of Miracles",
+    "author": "Robert Jackson Bennett",
+    "genre": "fantasy, paranormal, fiction, mystery, thriller, crime",
+    "rating": 4,
+    "average_rating": 4.5,
+    "year": 2017.0,
+    "summer_appeal": "Great for summer reading",
+    "date_added": "2025-07-28",
+    "source": "recommendations"
+  },
+  {
+    "id": 2,
+    "work_id": 2994229,
+    "title": "Mastiff",
+    "author": "Tamora Pierce",
+    "genre": "fantasy, paranormal, young-adult, fiction, mystery, thriller, crime, romance, history, historical fiction, biography, children",
+    "rating": 4,
+    "average_rating": 4.2,
+    "year": 2011.0,
+    "summer_appeal": "Great for summer reading",
+    "date_added": "2025-07-28",
+    "source": "recommendations"
+  }
+]
