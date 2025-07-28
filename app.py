@@ -611,16 +611,7 @@ def display_summer_reading_list():
     """Display and manage the summer reading list"""
     st.markdown("### 🏖️ My Summer Reading List")
     
-    if not st.session_state.summer_reading_list:
-        st.markdown("""
-        <div class="summer-empty-state">
-            <h3>☀️ Your summer reading adventure awaits!</h3>
-            <p>Start building your perfect summer reading list by discovering books that match your mood and interests.</p>
-            <p>🌅 Head over to 'Discover Summer Books' to find your next great read!</p>
-        </div>
-        """, unsafe_allow_html=True)
-        return
-
+    
     summer_books_df = pd.DataFrame(st.session_state.summer_reading_list)
 
     # Summer reading stats
@@ -932,14 +923,7 @@ def main():
         </div>
         """, unsafe_allow_html=True)
     
-    # Summer reading tip of the day
-    summer_tips = [
-        "🏖️ Beach reads should be engaging but not too complex!",
-        "📚 Mix different genres to match your summer moods",
-        "⏰ Set a realistic summer reading goal",
-        "🎧 Audiobooks are perfect for summer walks",
-        "👥 Join a summer book club for motivation!"
-    ]
+    
     
     daily_tip = random.choice(summer_tips)
     st.sidebar.markdown(f"""
