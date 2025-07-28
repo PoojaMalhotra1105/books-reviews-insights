@@ -371,7 +371,7 @@ def load_data():
     try:
         possible_files = [
             'books.csv', 'book_data.csv', 'library.csv', 'goodbooks.csv',
-            'goodreads_works.csv.zip', 'maven_books_dataset.csv', 'bookshelf.csv', 'maven_bookshelf.csv'
+            'goodreads_works 2.csv', 'maven_books_dataset.csv', 'bookshelf.csv', 'maven_bookshelf.csv'
         ]
         
         for filename in possible_files:
